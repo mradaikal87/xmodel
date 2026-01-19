@@ -5,52 +5,77 @@ function App() {
   const [open, setOpen] = useState(false);
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // prevent page reload
+    e.preventDefault();
+
+    const username = e.target.username.value;
+    const email = e.target.email.value;
+    const phone = e.target.phone.value;
+    const dob = e.target.dob.value;
+
+    if (!email.includes("@") || !email.includes(".")) {
+      alert("Invalid email");
+      return;
+    }
+
+    if (!/^\d{10}$/.test(phone)) {
+      alert("Invalid phone number");
+      return;
+    }
+
+    const selectedDate = new Date(dob);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (selectedDate >= today) {
+      alert("Invalid date of birth");
+      return;
+    }
+
     alert("Form submitted successfully");
     setOpen(false);
   };
 
   return (
-    <div className="container">
+    <div className="container" id="root">
       <div className="model-content">
         <h1>User Details Modal</h1>
-        <button className="toggle-btn" onClick={() => setOpen(!open)}>
-          {open ? "Close Form" : "Open Form"}
+        <button className="toggle-btn" onClick={() => setOpen(true)}>
+          Open Form
         </button>
       </div>
 
       {open && (
         <div className="overlay" onClick={() => setOpen(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <h2>Fill Details</h2>
+            <div className="modal-content">
+              <h2>Fill Details</h2>
 
-            {/* FORM START */}
-            <form onSubmit={handleSubmit}>
-              <div>
-                <label>Username:</label>
-                <input type="text" required />
-              </div>
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <label htmlFor="username">Username:</label>
+                  <input id="username" name="username" type="text" required />
+                </div>
 
-              <div>
-                <label>Email Address:</label>
-                <input type="email" required />
-              </div>
+                <div>
+                  <label htmlFor="email">Email Address:</label>
+                  <input id="email" name="email" type="email" required />
+                </div>
 
-              <div>
-                <label>Phone Number:</label>
-                <input type="tel" required />
-              </div>
+                <div>
+                  <label htmlFor="phone">Phone Number:</label>
+                  <input id="phone" name="phone" type="tel" required />
+                </div>
 
-              <div>
-                <label>Date of Birth:</label>
-                <input type="date" required />
-              </div>
+                <div>
+                  <label htmlFor="dob">Date of Birth:</label>
+                  <input id="dob" name="dob" type="date" required />
+                </div>
 
-              <button type="submit" className="submit-btn">
-                Submit
-              </button>
-            </form>
-            {/* FORM END */}
+                <button type="submit" className="submit-button">
+                  Submit
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       )}
