@@ -7,7 +7,6 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const username = e.target.username.value;
     const email = e.target.email.value;
     const phone = e.target.phone.value;
     const dob = e.target.dob.value;
